@@ -28,7 +28,7 @@
   --shl: 0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--n100);color:var(--n800);display:flex;height:100vh;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--n100);color:var(--n800);display:flex;height:100vh;height:100svh;overflow:hidden}
 
 /* SIDEBAR */
 #sidebar{width:var(--sw);background:var(--n900);color:#fff;display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
@@ -243,13 +243,20 @@ code{background:var(--n100);padding:2px 6px;border-radius:4px;font-size:12px;fon
   #page-title{flex:1;font-size:14px;font-weight:600}
   #sync-wrap{display:none!important}
   .search-box{display:none}
-  #sync-btn{display:none!important}
+  #sync-btn{padding:6px 8px;font-size:16px;min-width:36px;justify-content:center}
+  #sync-btn span.btn-label{display:none}
+  /* Search overlay visible when active */
+  #mobile-search-bar{display:none;position:absolute;top:var(--hh);left:0;right:0;background:#fff;padding:8px 12px;border-bottom:1px solid var(--n200);z-index:300;box-shadow:var(--shm)}
+  #mobile-search-bar.visible{display:flex}
+  #mobile-search-bar input{flex:1;padding:8px 12px;border:1px solid var(--n200);border-radius:6px;font-size:14px;outline:none}
+  #mobile-search-bar input:focus{border-color:var(--primary)}
+  #mobile-search-bar button{background:none;border:none;cursor:pointer;padding:6px;font-size:18px;color:var(--n500)}
 
   /* Content con espacio para bottom nav */
   #content{padding:12px;padding-bottom:76px}
 
   /* Tablas con scroll horizontal */
-  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table-wrap{overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch}
 
   /* Cards más pequeñas */
   .stats-grid{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
@@ -270,8 +277,8 @@ code{background:var(--n100);padding:2px 6px;border-radius:4px;font-size:12px;fon
   .modal-body{padding:14px 18px}
   .modal-foot{padding:12px 18px}
 
-  /* Botones de acción más grandes */
-  .btn-xs{padding:5px 9px;font-size:12px}
+  /* Botones de acción táctiles */
+  .btn-xs{padding:7px 10px;font-size:12px;min-height:34px}
   td{padding:8px 9px}
 
   /* Section header en columna */
@@ -385,8 +392,14 @@ code{background:var(--n100);padding:2px 6px;border-radius:4px;font-size:12px;fon
     <div class="search-box">
       <input type="text" id="gsearch" placeholder="Buscar en todo el inventario..." oninput="onSearch(this.value)">
     </div>
-    <button class="btn btn-secondary" onclick="openFbSetup()" id="sync-btn" title="Configurar sincronización">☁️ Sync</button>
-    <button class="btn btn-primary" onclick="openAdd()">＋ Añadir Producto</button>
+    <button class="btn btn-secondary" onclick="openFbSetup()" id="sync-btn" title="Configurar sincronización">☁️ <span class="btn-label">Sync</span></button>
+    <button class="btn btn-secondary" id="search-toggle" onclick="toggleMobileSearch()" title="Buscar" style="display:none;padding:6px 10px;font-size:18px;min-width:36px;justify-content:center">🔍</button>
+    <button class="btn btn-primary" onclick="openAdd()">＋ Añadir</button>
+  </div>
+  <!-- Barra de búsqueda móvil (se despliega bajo el topbar) -->
+  <div id="mobile-search-bar" style="position:relative">
+    <input type="text" id="msearch" placeholder="Buscar producto…" oninput="onSearch(this.value)" autocomplete="off">
+    <button onclick="closeMobileSearch()">✕</button>
   </div>
   <div id="content"></div>
 </div>
@@ -601,19 +614,19 @@ code{background:var(--n100);padding:2px 6px;border-radius:4px;font-size:12px;fon
 
 <!-- ===== BOTTOM NAV (móvil) ===== -->
 <nav id="bottom-nav">
-  <button data-sec="dashboard" onclick="goMobile('dashboard')">
+  <button data-sec="dashboard" onclick="go('dashboard')">
     <span class="bni">📊</span>Inicio
   </button>
   <button data-sec="food" onclick="toggleFoodMenu()">
     <span class="bni">🍞</span>Alimentos
   </button>
-  <button data-sec="compras" onclick="goMobile('compras')">
+  <button data-sec="compras" onclick="go('compras')">
     <span class="bni">🛒</span>Compras
   </button>
   <button data-sec="home" onclick="toggleHomeMenu()">
     <span class="bni">🧴</span>Hogar
   </button>
-  <button data-sec="stats" onclick="goMobile('stats')">
+  <button data-sec="stats" onclick="go('stats')">
     <span class="bni">📈</span>Stats
   </button>
 </nav>
@@ -906,9 +919,19 @@ function refreshDatalist() {
 // NAVIGATION
 // =====================================================================
 function go(sec) {
+  // Close mobile sidebar + any open pickers
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-backdrop').classList.remove('on');
+  const picker = document.getElementById('mobile-picker');
+  if (picker) {
+    document.getElementById('mobile-picker-bd')?.remove();
+    picker.remove();
+  }
+
   S.view = sec;
   S.filter = { q:'', cat:'', stock:'all' };
   document.getElementById('gsearch').value = '';
+  closeMobileSearch();
 
   document.querySelectorAll('.nav-item').forEach(el => {
     el.classList.toggle('active', el.dataset.sec === sec);
@@ -923,6 +946,7 @@ function go(sec) {
   };
   document.getElementById('page-title').textContent = titles[sec] || sec;
   render();
+  updateBottomNav(sec);
 }
 
 // =====================================================================
@@ -1801,17 +1825,6 @@ function closeSidebar() {
   document.getElementById('sb-backdrop').classList.remove('on');
 }
 
-// Wrap go() to close sidebar on mobile after navigating
-const _goOrig = go;
-function go(sec) {
-  closeSidebar();
-  _goOrig(sec);
-  updateBottomNav(sec);
-}
-
-function goMobile(sec) {
-  go(sec);
-}
 
 function updateBottomNav(sec) {
   document.querySelectorAll('#bottom-nav button').forEach(btn => {
@@ -1838,33 +1851,55 @@ function toggleHomeMenu() {
 }
 
 function showPickerMenu(options) {
-  // Remove existing picker
+  // Toggle: if already open, close it
   const old = document.getElementById('mobile-picker');
-  if (old) { old.remove(); return; }
+  if (old) {
+    document.getElementById('mobile-picker-bd')?.remove();
+    old.remove();
+    return;
+  }
+
+  const backdrop = document.createElement('div');
+  backdrop.id = 'mobile-picker-bd';
+  backdrop.style.cssText = 'position:fixed;inset:0;z-index:449;background:rgba(0,0,0,.3)';
+  backdrop.onclick = () => { backdrop.remove(); document.getElementById('mobile-picker')?.remove(); };
 
   const el = document.createElement('div');
   el.id = 'mobile-picker';
-  el.style.cssText = `
-    position:fixed;bottom:65px;left:0;right:0;background:#fff;
-    border-top:1px solid var(--n200);z-index:450;
-    display:flex;flex-direction:column;
-    box-shadow:0 -4px 20px rgba(0,0,0,.12);
-    border-radius:16px 16px 0 0;padding:8px 0;
-  `;
+  el.style.cssText = 'position:fixed;bottom:62px;left:0;right:0;background:#fff;border-top:1px solid var(--n200);z-index:450;display:flex;flex-direction:column;box-shadow:0 -4px 20px rgba(0,0,0,.15);border-radius:16px 16px 0 0;padding:8px 0 4px';
+
   options.forEach(o => {
     const btn = document.createElement('button');
-    btn.style.cssText = 'display:flex;align-items:center;gap:12px;padding:13px 20px;border:none;background:none;cursor:pointer;font-size:14px;text-align:left;width:100%;color:var(--n800)';
-    btn.innerHTML = `<span style="font-size:20px">${o.icon}</span>${o.label}`;
-    btn.onclick = () => { el.remove(); go(o.key); };
+    btn.style.cssText = 'display:flex;align-items:center;gap:14px;padding:13px 20px;border:none;background:none;cursor:pointer;font-size:14px;text-align:left;width:100%;color:var(--n800);transition:background .1s';
+    btn.onmouseenter = () => btn.style.background = 'var(--n50)';
+    btn.onmouseleave = () => btn.style.background = '';
+    btn.innerHTML = `<span style="font-size:22px">${o.icon}</span><span>${o.label}</span>`;
+    btn.onclick = () => { backdrop.remove(); el.remove(); go(o.key); };
     el.appendChild(btn);
   });
 
-  // Close on outside tap
-  const backdrop = document.createElement('div');
-  backdrop.style.cssText = 'position:fixed;inset:0;z-index:449';
-  backdrop.onclick = () => { el.remove(); backdrop.remove(); };
   document.body.appendChild(backdrop);
   document.body.appendChild(el);
+}
+
+function toggleMobileSearch() {
+  const bar = document.getElementById('mobile-search-bar');
+  const isVisible = bar.classList.toggle('visible');
+  if (isVisible) {
+    setTimeout(() => document.getElementById('msearch').focus(), 80);
+  } else {
+    document.getElementById('msearch').value = '';
+    onSearch('');
+  }
+}
+
+function closeMobileSearch() {
+  const bar = document.getElementById('mobile-search-bar');
+  if (bar.classList.contains('visible')) {
+    bar.classList.remove('visible');
+    document.getElementById('msearch').value = '';
+    onSearch('');
+  }
 }
 
 // =====================================================================
@@ -1882,8 +1917,13 @@ if ('serviceWorker' in navigator) {
 // INIT
 // =====================================================================
 load();
-_goOrig('dashboard'); // use original to avoid double-call
+go('dashboard');
 autoConnectFirebase();
+
+// Show mobile-only buttons via JS (avoids flash on desktop)
+if (window.innerWidth <= 700) {
+  document.getElementById('search-toggle').style.display = 'flex';
+}
 </script>
 </body>
 </html>
