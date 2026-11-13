@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Metales Las Compañías</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Compramos chatarra, cobre, bronce, aluminio y fierro en La Serena. Pesaje a la vista, pago al contado y retiro en obras y talleres. Sector Las Compañías.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: patio de chatarrería — banda de acero arriba, ticket de pesaje como pieza central, tarjetas de material con su "muestra" de metal, todo en una columna pensada para celular. */
+:root {
+  --bg: #EEF0EF;
+  --surface: #FFFFFF;
+  --ink: #1B2226;
+  --muted: #56636A;
+  --line: #D2D8D8;
+  --copper: #B04F22;
+  --copper-soft: #F6E3D8;
+  --on-accent: #FFFFFF;
+  --steel: #26333B;
+  --on-steel: #EEF2F2;
+  --on-steel-muted: #A9B7BD;
+  --wa: #1A8549;
+  --note: #FFF4CC;
+  --note-ink: #5B4600;
+
+  --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  --maxw: 1080px;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #13181B; --surface: #1C2327; --ink: #E7ECEC; --muted: #9AA7AC; --line: #2D383D;
+    --copper: #E27D48; --copper-soft: #3A2419; --on-accent: #1A0D06;
+    --steel: #0C1114; --on-steel: #EEF2F2; --on-steel-muted: #93A3A9;
+    --wa: #2DB46A; --note: #3A3214; --note-ink: #F3DF96;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #13181B; --surface: #1C2327; --ink: #E7ECEC; --muted: #9AA7AC; --line: #2D383D;
+  --copper: #E27D48; --copper-soft: #3A2419; --on-accent: #1A0D06;
+  --steel: #0C1114; --on-steel: #EEF2F2; --on-steel-muted: #93A3A9;
+  --wa: #2DB46A; --note: #3A3214; --note-ink: #F3DF96;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 17px; line-height: 1.55;
+}
+img { max-width: 100%; }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: .005em; }
+h2 { font-size: clamp(2rem, 5vw, 2.8rem); }
+h3 { font-size: 1.45rem; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--copper); outline-offset: 2px; }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.band { padding-block: 64px; }
+.eyebrow { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--copper); }
+.lead { color: var(--muted); max-width: 60ch; }
+.section-head { display: grid; gap: 10px; margin-bottom: 32px; }
+
+/* Aviso de demo */
+.demo-note { background: var(--note); color: var(--note-ink); font-size: .88rem; }
+.demo-note .wrap { padding-block: 8px; }
+
+/* Encabezado */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--steel); }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--steel); color: var(--on-steel); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand-mark { width: 34px; height: 34px; border-radius: 4px; background: var(--copper); display: grid; place-items: center; color: var(--on-accent); font-family: var(--f-display); font-weight: 700; font-size: 1.1rem; }
+.brand-name { font-family: var(--f-display); font-weight: 700; font-size: 1.3rem; letter-spacing: .02em; line-height: 1; }
+.brand-name small { display: block; font-family: var(--f-body); font-weight: 500; font-size: .72rem; letter-spacing: .06em; color: var(--on-steel-muted); text-transform: uppercase; margin-top: 3px; }
+nav.links { display: flex; gap: 20px; font-size: .95rem; }
+nav.links a { text-decoration: none; color: var(--on-steel-muted); }
+nav.links a:hover { color: var(--on-steel); }
+@media (max-width: 760px) { nav.links { display: none; } }
+
+/* Botones */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 22px; border-radius: var(--r); font-family: var(--f-body); font-weight: 600; font-size: 1.02rem; text-decoration: none; border: 2px solid transparent; cursor: pointer; }
+.btn-wa { background: var(--wa); color: #fff; }
+.btn-copper { background: var(--copper); color: var(--on-accent); }
+.btn-ghost { border-color: currentColor; color: inherit; background: transparent; }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn-sm { min-height: 40px; padding: 0 14px; font-size: .92rem; }
+
+/* Portada */
+.hero { background: var(--steel); color: var(--on-steel); }
+.hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; padding-block: 56px 72px; }
+@media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; gap: 36px; padding-block: 40px 56px; } }
+.hero h1 { font-size: clamp(2.6rem, 8vw, 4.6rem); font-weight: 700; text-transform: uppercase; }
+.hero h1 em { font-style: normal; color: var(--copper); }
+.hero .lead { color: var(--on-steel-muted); font-size: 1.12rem; margin-top: 18px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.hero-actions .btn-ghost { color: var(--on-steel); }
+.trust { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 28px; padding: 0; list-style: none; font-size: .95rem; color: var(--on-steel-muted); }
+.trust li { display: flex; align-items: center; gap: 8px; }
+.trust li::before { content: ""; width: 8px; height: 8px; background: var(--copper); border-radius: 1px; }
+
+/* Ticket de pesaje */
+.ticket { background: #FBFAF6; color: #23282B; font-family: var(--f-mono); font-size: .88rem; border-radius: 4px; padding: 22px 22px 18px; position: relative; max-width: 380px; justify-self: center; width: 100%; transform: rotate(1.5deg); box-shadow: 0 18px 40px rgba(0,0,0,.35); }
+.ticket::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px; background: radial-gradient(circle at 6px 0, transparent 6px, #FBFAF6 6.5px) repeat-x; background-size: 12px 10px; }
+.ticket-head { text-align: center; border-bottom: 1px dashed #9AA3A6; padding-bottom: 10px; margin-bottom: 10px; }
+.ticket-head strong { font-family: var(--f-display); font-size: 1.35rem; letter-spacing: .04em; display: block; }
+.ticket-row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; font-variant-numeric: tabular-nums; }
+.ticket-row span:first-child { color: #66707A; }
+.ticket-total { border-top: 1px dashed #9AA3A6; margin-top: 10px; padding-top: 10px; font-size: 1.05rem; font-weight: 500; }
+.ticket-stamp { margin-top: 14px; display: inline-block; border: 2px solid #B04F22; color: #B04F22; padding: 2px 10px; font-size: .78rem; letter-spacing: .14em; transform: rotate(-4deg); }
+.ticket-foot { text-align: center; color: #66707A; font-size: .74rem; margin-top: 12px; }
+
+/* Materiales */
+.materials { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.mat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; grid-template-columns: 54px 1fr; gap: 14px; align-items: start; }
+.swatch { width: 54px; height: 54px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+.sw-cu1 { background: linear-gradient(135deg, #F2A06E, #C4612C 45%, #8E3C16 70%, #E28A55); }
+.sw-cu2 { background: linear-gradient(135deg, #A85B34, #6E3A22 50%, #4B6B57 85%); }
+.sw-br { background: linear-gradient(135deg, #E8C66A, #B78A2E 50%, #7A5B1C 80%); }
+.sw-al { background: linear-gradient(135deg, #F1F3F4, #B7BEC2 45%, #8A949A 75%, #D9DEE0); }
+.sw-in { background: linear-gradient(135deg, #DCE2E5, #9AA6AC 40%, #C9D0D3 60%, #6E7A80); }
+.sw-fe { background: linear-gradient(135deg, #7B6A60, #4A3D36 40%, #8C5530 65%, #3B3532); }
+.sw-pb { background: linear-gradient(135deg, #59636A, #2F363B 55%, #4F575D); }
+.sw-rad { background: repeating-linear-gradient(90deg, #C9783F 0 4px, #8C4A22 4px 6px), #A85B34; }
+.mat h3 { font-size: 1.25rem; }
+.mat p { font-size: .92rem; color: var(--muted); margin-top: 2px; }
+.mat-note { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; background: var(--copper-soft); border-radius: var(--r); padding: 16px 18px; }
+.mat-note p { flex: 1 1 280px; }
+
+/* Pasos */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; counter-reset: paso; border-top: 2px solid var(--ink); }
+@media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+.step { padding: 22px 22px 4px 0; counter-increment: paso; display: grid; gap: 8px; align-content: start; }
+.step + .step { padding-left: 22px; border-left: 1px solid var(--line); }
+@media (max-width: 760px) { .step + .step { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
+.step::before { content: "Paso " counter(paso); font-family: var(--f-mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--copper); }
+.step p { color: var(--muted); }
+
+/* Empresas + retiro */
+.biz { background: var(--surface); border-block: 1px solid var(--line); }
+.biz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+@media (max-width: 860px) { .biz-grid { grid-template-columns: 1fr; gap: 36px; } }
+.checks { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 14px; }
+.checks li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; }
+.checks li::before { content: ""; width: 18px; height: 18px; margin-top: 4px; border-radius: 3px; background: var(--copper); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/18px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/18px no-repeat; }
+.checks strong { display: block; }
+.checks span { color: var(--muted); font-size: .95rem; }
+
+form.pickup { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; display: grid; gap: 14px; }
+form.pickup h3 { font-size: 1.6rem; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label { font-weight: 600; font-size: .92rem; }
+.field input, .field select, .field textarea { font: inherit; font-size: 1rem; padding: 11px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--ink); width: 100%; }
+.field textarea { resize: vertical; min-height: 70px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) { .row2 { grid-template-columns: 1fr; } }
+.seg { display: flex; gap: 8px; flex-wrap: wrap; }
+.seg label { flex: 1 1 120px; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); font-weight: 500; cursor: pointer; }
+.form-hint { font-size: .85rem; color: var(--muted); }
+.form-result { border-top: 1px dashed var(--line); padding-top: 14px; display: grid; gap: 10px; }
+.form-result pre { white-space: pre-wrap; font-family: var(--f-mono); font-size: .82rem; background: var(--surface); border: 1px solid var(--line); padding: 12px; border-radius: 4px; margin: 0; overflow-x: auto; }
+
+/* Requisitos */
+.reqs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.req { border-left: 3px solid var(--copper); padding: 4px 0 4px 16px; }
+.req h3 { font-size: 1.25rem; margin-bottom: 4px; }
+.req p { color: var(--muted); font-size: .95rem; }
+
+/* Fotos */
+.photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 760px) { .photos { grid-template-columns: repeat(2, 1fr); } }
+.ph { aspect-ratio: 4 / 3; max-width: 100%; border: 2px dashed var(--line); border-radius: var(--r); display: grid; place-items: center; text-align: center; padding: 10px; color: var(--muted); font-size: .88rem; background: var(--surface); }
+.ph strong { display: block; font-family: var(--f-display); font-size: 1.1rem; color: var(--ink); }
+
+/* Ubicación */
+.loc { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; }
+@media (max-width: 760px) { .loc { grid-template-columns: 1fr; } }
+.hours { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; margin-top: 18px; }
+.hours td { padding: 9px 0; border-bottom: 1px solid var(--line); }
+.hours td:last-child { text-align: right; font-family: var(--f-mono); font-size: .92rem; }
+.map { position: relative; min-height: 260px; border-radius: var(--r); overflow: hidden; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: end start; padding: 18px; text-decoration: none; }
+.map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map .map-cta { position: relative; background: var(--steel); color: var(--on-steel); padding: 10px 14px; border-radius: 4px; font-weight: 600; }
+
+/* FAQ */
+.faq { display: grid; gap: 0; border-top: 1px solid var(--line); max-width: 780px; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; padding: 18px 36px 18px 0; position: relative; font-weight: 600; font-size: 1.05rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font-family: var(--f-display); font-size: 1.8rem; color: var(--copper); }
+.faq details[open] summary::after { content: "–"; }
+.faq details p { padding: 0 0 18px; color: var(--muted); max-width: 65ch; }
+
+/* Cierre y pie */
+.cta-band { background: var(--copper); color: var(--on-accent); }
+.cta-band .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding-block: 40px; }
+.cta-band h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
+.cta-band .btn-wa { background: var(--steel); color: var(--on-steel); }
+footer { background: var(--steel); color: var(--on-steel-muted); font-size: .9rem; }
+footer .wrap { padding-block: 32px 96px; display: grid; gap: 8px; }
+footer strong { color: var(--on-steel); }
+.num { font-family: var(--f-mono); color: var(--on-steel); user-select: all; }
+
+/* WhatsApp flotante */
+.wa-float { position: fixed; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 20; width: 60px; height: 60px; border-radius: 50%; background: var(--wa); color: #fff; display: grid; place-items: center; box-shadow: 0 8px 22px rgba(0,0,0,.3); }
+.wa-float svg { width: 32px; height: 32px; }
+</style>
+</head>
+<body>
+
+<div class="demo-note" role="note">
+  <div class="wrap"><strong>Sitio de ejemplo.</strong> Nombre, teléfono, dirección y horario son datos de prueba.</div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Metales Las Compañías, ir al inicio">
+      <span class="brand-mark" aria-hidden="true">MC</span>
+      <span class="brand-name">Metales Las Compañías<small>Compra de chatarra · La Serena</small></span>
+    </a>
+    <nav class="links" aria-label="Secciones">
+      <a href="#materiales">Qué compramos</a>
+      <a href="#empresas">Empresas y retiro</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#preguntas">Preguntas</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Sector Las Compañías · La Serena</p>
+        <h1 style="margin-top:12px">Compramos tu chatarra y <em>metales</em> al contado</h1>
+        <p class="lead">Cobre, bronce, aluminio, fierro y más. Pesamos frente a ti y pagamos en el momento. Para obras, talleres y empresas coordinamos el retiro.</p>
+        <div class="hero-actions">
+          <a class="btn btn-wa js-wa" data-msg="Hola, los encontré en la página web. Quiero vender metal y me gustaría saber el precio de hoy." href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></svg>
+            Cotizar por WhatsApp
+          </a>
+          <a class="btn btn-ghost" href="#retiro">Solicitar retiro</a>
+        </div>
+        <ul class="trust">
+          <li>Pesaje en balanza a la vista</li>
+          <li>Pago al contado o transferencia</li>
+          <li>Factura para empresas</li>
+        </ul>
+      </div>
+
+      <div class="ticket" aria-label="Ejemplo de ticket de pesaje">
+        <div class="ticket-head">
+          <strong>TICKET DE PESAJE</strong>
+          N° 001482 · 13/11/2026 · 10:42
+        </div>
+        <div class="ticket-row"><span>Material</span><span>Cobre 2ª</span></div>
+        <div class="ticket-row"><span>Bruto</span><span>52,4 kg</span></div>
+        <div class="ticket-row"><span>Tara (saco)</span><span>0,6 kg</span></div>
+        <div class="ticket-row"><span>Descuento aislación</span><span>3,3 kg</span></div>
+        <div class="ticket-row ticket-total"><span>Neto</span><span>48,5 kg</span></div>
+        <div class="ticket-row"><span>Precio</span><span>Según cotización del día</span></div>
+        <div class="ticket-row"><span>Pago</span><span>Al contado</span></div>
+        <span class="ticket-stamp">PAGADO</span>
+        <div class="ticket-foot">Te entregamos el detalle de cada pesada</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="materiales">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Qué compramos</p>
+        <h2>Si es metal, probablemente lo compramos</h2>
+        <p class="lead">Separa el material si puedes: el metal limpio y clasificado se paga mejor. Si viene mezclado, lo clasificamos nosotros al pesar.</p>
+      </div>
+      <div class="materials">
+        <article class="mat"><div class="swatch sw-cu1" aria-hidden="true"></div><div><h3>Cobre 1ª</h3><p>Cable pelado brillante, sin estaño ni pintura.</p></div></article>
+        <article class="mat"><div class="swatch sw-cu2" aria-hidden="true"></div><div><h3>Cobre 2ª y 3ª</h3><p>Cañería, cobre quemado, cable con aislación.</p></div></article>
+        <article class="mat"><div class="swatch sw-br" aria-hidden="true"></div><div><h3>Bronce y latón</h3><p>Llaves, fittings, grifería, casquillos.</p></div></article>
+        <article class="mat"><div class="swatch sw-al" aria-hidden="true"></div><div><h3>Aluminio</h3><p>Perfil de ventana, olla, lata, llanta, cable.</p></div></article>
+        <article class="mat"><div class="swatch sw-in" aria-hidden="true"></div><div><h3>Acero inoxidable</h3><p>Lavaplatos, mesones, piezas industriales.</p></div></article>
+        <article class="mat"><div class="swatch sw-fe" aria-hidden="true"></div><div><h3>Fierro y chatarra</h3><p>Fierro de construcción, perfiles, chatarra pesada y liviana.</p></div></article>
+        <article class="mat"><div class="swatch sw-pb" aria-hidden="true"></div><div><h3>Baterías</h3><p>Baterías de plomo de auto y camión.</p></div></article>
+        <article class="mat"><div class="swatch sw-rad" aria-hidden="true"></div><div><h3>Radiadores</h3><p>Radiadores de cobre-bronce y de aluminio.</p></div></article>
+      </div>
+      <div class="mat-note">
+        <p><strong>Los precios cambian cada semana</strong> según el mercado del cobre y el acero. Escríbenos con el material y los kilos aproximados y te damos el precio de hoy.</p>
+        <a class="btn btn-copper btn-sm js-wa" data-msg="Hola, los encontré en la página web. ¿Cuál es el precio de hoy para este material? Material: ___ Kilos aprox.: ___" href="#" target="_blank" rel="noopener">Pedir precio de hoy</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Cómo funciona</p>
+        <h2>Vender tu metal toma tres pasos</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Lo traes o lo retiramos</h3><p>Llega directo al patio en horario de atención, o pide retiro si tienes volumen en obra o taller.</p></div>
+        <div class="step"><h3>Pesamos frente a ti</h3><p>Clasificamos por material y pesamos en balanza a la vista. Ves cada kilo en el ticket.</p></div>
+        <div class="step"><h3>Te pagamos al tiro</h3><p>Efectivo o transferencia en el momento. Para empresas, con factura.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band biz" id="empresas">
+    <div class="wrap biz-grid">
+      <div>
+        <p class="eyebrow">Para empresas, obras y talleres</p>
+        <h2 style="margin-top:10px">Tu chatarra deja de ocupar espacio y pasa a ser plata</h2>
+        <ul class="checks">
+          <li><div><strong>Retiro coordinado</strong><span>Para volúmenes medianos en La Serena y Coquimbo. Coordinamos día y hora por WhatsApp.</span></div></li>
+          <li><div><strong>Factura y documentación</strong><span>Emitimos los documentos que tu empresa necesita para respaldar la venta.</span></div></li>
+          <li><div><strong>Retiros periódicos</strong><span>Si generas chatarra todos los meses, acordamos una frecuencia fija.</span></div></li>
+          <li><div><strong>Pago transparente</strong><span>Ticket de pesaje por material y pago por transferencia.</span></div></li>
+        </ul>
+      </div>
+
+      <form class="pickup" id="retiro" novalidate>
+        <h3>Solicitar retiro</h3>
+        <p class="form-hint">Completa los datos y se arma el mensaje para enviarlo por WhatsApp.</p>
+        <div class="field">
+          <span style="font-weight:600;font-size:.92rem">Eres</span>
+          <div class="seg">
+            <label><input type="radio" name="tipo" id="tipo-empresa" value="Empresa / taller / obra" checked> Empresa u obra</label>
+            <label><input type="radio" name="tipo" id="tipo-particular" value="Particular"> Particular</label>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="f-nombre">Nombre o empresa</label><input id="f-nombre" name="nombre" autocomplete="organization" placeholder="Ej: Constructora Elqui" value="Constructora Elqui (ejemplo)"></div>
+          <div class="field"><label for="f-comuna">Comuna</label>
+            <select id="f-comuna" name="comuna">
+              <option>La Serena</option><option>Coquimbo</option><option>Vicuña</option><option>Andacollo</option><option>Otra</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="f-material">Material principal</label>
+            <select id="f-material" name="material">
+              <option>Fierro y chatarra</option><option>Cobre</option><option>Bronce y latón</option><option>Aluminio</option><option>Acero inoxidable</option><option>Baterías</option><option>Mezclado</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-kilos">Kilos aproximados</label><input id="f-kilos" name="kilos" inputmode="numeric" placeholder="Ej: 800" value="800"></div>
+        </div>
+        <div class="field"><label for="f-dir">Dirección o sector</label><input id="f-dir" name="direccion" autocomplete="street-address" placeholder="Ej: Av. Cuatro Esquinas 1234" value="Parcela 12, sector Alfalfares (ejemplo)"></div>
+        <div class="field"><label for="f-nota">Comentario (opcional)</label><textarea id="f-nota" name="nota" placeholder="Ej: hay que cargar con grúa, horario de faena, etc."></textarea></div>
+        <button class="btn btn-copper" type="submit">Preparar solicitud</button>
+        <div class="form-result" id="form-result" hidden>
+          <p><strong>Tu mensaje está listo.</strong> Revísalo y ábrelo en WhatsApp para enviarlo.</p>
+          <pre id="form-preview"></pre>
+          <a class="btn btn-wa" id="form-wa" href="#" target="_blank" rel="noopener">Abrir en WhatsApp</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="band" id="requisitos">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Compra responsable</p>
+        <h2>Requisitos para vender</h2>
+        <p class="lead">Compramos solo material de origen conocido. Así cuidamos a nuestros clientes y al barrio.</p>
+      </div>
+      <div class="reqs">
+        <div class="req"><h3>Carnet o RUT</h3><p>Registramos a quien vende en cada compra. Empresas, con RUT de la empresa.</p></div>
+        <div class="req"><h3>Cobre y cables</h3><p>Para cable de tendido eléctrico o telefónico pedimos documentos que acrediten su origen.</p></div>
+        <div class="req"><h3>Boleta o factura</h3><p>Cada compra queda respaldada con su ticket de pesaje y documento.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Nuestro patio</p>
+        <h2>Así trabajamos</h2>
+        <p class="lead">Espacio reservado para fotos reales del lugar.</p>
+      </div>
+      <div class="photos">
+        <div class="ph"><div><strong>Balanza</strong>Foto del pesaje</div></div>
+        <div class="ph"><div><strong>Patio</strong>Material clasificado</div></div>
+        <div class="ph"><div><strong>Camión</strong>Retiro en terreno</div></div>
+        <div class="ph"><div><strong>Maquinaria</strong>Retroexcavadora cargando</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band biz" id="ubicacion">
+    <div class="wrap loc">
+      <div>
+        <p class="eyebrow">Ubicación y horario</p>
+        <h2 style="margin-top:10px">Estamos en Las Compañías</h2>
+        <p class="lead" style="margin-top:12px">Calle de ejemplo 1234, sector Las Compañías, La Serena. Entrada de camiones por el portón lateral.</p>
+        <table class="hours" aria-label="Horario de atención">
+          <tr><td>Lunes a viernes</td><td>08:30 – 18:00</td></tr>
+          <tr><td>Sábado</td><td>09:00 – 13:30</td></tr>
+          <tr><td>Domingo y festivos</td><td>Cerrado</td></tr>
+        </table>
+      </div>
+      <a class="map" href="https://www.google.com/maps/search/?api=1&query=Las+Compa%C3%B1%C3%ADas%2C+La+Serena" target="_blank" rel="noopener" aria-label="Abrir la ubicación en Google Maps">
+        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="400" height="260" fill="var(--surface)"/>
+          <path d="M-10 190 C 80 170, 140 200, 220 160 S 360 110, 420 120" stroke="var(--line)" stroke-width="18" fill="none"/>
+          <path d="M120 -10 L 160 280" stroke="var(--line)" stroke-width="12" fill="none"/>
+          <path d="M-10 80 L 420 60" stroke="var(--line)" stroke-width="8" fill="none"/>
+          <path d="M300 -10 L 270 280" stroke="var(--line)" stroke-width="8" fill="none"/>
+          <path d="M0 230 C 120 250, 260 240, 400 250" stroke="var(--muted)" stroke-opacity=".35" stroke-width="3" stroke-dasharray="6 6" fill="none"/>
+          <g transform="translate(212 118)">
+            <circle r="26" fill="var(--copper)" fill-opacity=".18"/>
+            <path d="M0 -26 C 14 -26 22 -16 22 -6 C 22 8 0 26 0 26 C 0 26 -22 8 -22 -6 C -22 -16 -14 -26 0 -26 Z" fill="var(--copper)" transform="translate(0 -18) scale(.8)"/>
+            <circle cy="-23" r="6" fill="var(--surface)"/>
+          </g>
+        </svg>
+        <span class="map-cta">Abrir en Google Maps</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="band" id="preguntas">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2>Lo que más nos preguntan</h2>
+      </div>
+      <div class="faq">
+        <details><summary>¿Cuánto pagan por el kilo de cobre?</summary><p>Depende del tipo de cobre (1ª, 2ª o con aislación) y del precio del mercado esa semana. Escríbenos por WhatsApp con una foto y los kilos aproximados y te damos el precio de hoy.</p></details>
+        <details><summary>¿Compran cantidades pequeñas?</summary><p>Sí. Puedes traer desde unos pocos kilos. Para retiro a domicilio necesitamos un volumen mínimo; consúltanos por WhatsApp.</p></details>
+        <details><summary>¿Cómo pagan?</summary><p>En efectivo o por transferencia en el momento, después de pesar. A empresas les pagamos por transferencia con factura.</p></details>
+        <details><summary>¿Tengo que separar los metales?</summary><p>No es obligatorio, pero el material separado y limpio se paga mejor. Si viene mezclado, lo clasificamos al pesar.</p></details>
+        <details><summary>¿Hacen retiros fuera de La Serena?</summary><p>Retiramos en La Serena y Coquimbo. Para otras comunas de la región, consúltanos según el volumen.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>¿Tienes metal para vender?</h2>
+      <a class="btn btn-wa js-wa" data-msg="Hola, los encontré en la página web. Tengo metal para vender." href="#" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Metales Las Compañías</strong>
+    <span>Compra de chatarra y metales · Sector Las Compañías, La Serena, Región de Coquimbo</span>
+    <span>WhatsApp: <span class="num" id="wa-num"></span> (número de prueba)</span>
+  </div>
+</footer>
+
+<a class="wa-float js-wa" data-msg="Hola, los encontré en la página web. Quiero vender metal." href="#" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></svg>
+</a>
+
+<script>
+  // Cambia este número por el WhatsApp real de la empresa (formato: 569XXXXXXXX, sin + ni espacios).
+  var WA_NUMBER = "56900000000";
+
+  function waLink(msg) { return "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg); }
+
+  document.getElementById("wa-num").textContent = "+56 9 0000 0000";
+  document.querySelectorAll(".js-wa").forEach(function (a) { a.href = waLink(a.dataset.msg); });
+
+  var form = document.getElementById("retiro");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var d = new FormData(form);
+    var lines = [
+      "Hola, los encontré en la página web. Quiero solicitar un retiro.",
+      "",
+      "• Tipo: " + d.get("tipo"),
+      "• Nombre: " + (d.get("nombre") || "-"),
+      "• Comuna: " + d.get("comuna"),
+      "• Material: " + d.get("material"),
+      "• Kilos aprox.: " + (d.get("kilos") || "-"),
+      "• Dirección: " + (d.get("direccion") || "-")
+    ];
+    if (d.get("nota")) lines.push("• Comentario: " + d.get("nota"));
+    var msg = lines.join("\n");
+    document.getElementById("form-preview").textContent = msg;
+    document.getElementById("form-wa").href = waLink(msg);
+    document.getElementById("form-result").hidden = false;
+  });
+</script>
+</body>
+</html>
